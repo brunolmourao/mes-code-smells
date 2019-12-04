@@ -23,17 +23,25 @@ public class InapIntProcessor extends AbstractProcessor<CtClass<?>> {
 	public void process(CtClass<?> element) {
 		int fan_in = 0;
 		int fan_out = 0;
-		if(!element.getQualifiedName().contains("exception") && !element.getQualifiedName().contains("Exception")){
+		if(!element.getQualifiedName().contains("exception") && !element.getQualifiedName().contains("Exception")
+				 && !element.getQualifiedName().contains("$")){
 			if (App.called.get(element.getQualifiedName()) != null) {
 				fan_in = App.called.get(element.getQualifiedName()).size();
 			}
 			System.out.println("Elemento: "+element.getQualifiedName());
-			//String pacoteTodo = element.getPackage().toString();
-			//String[] pacote = pacoteTodo.split("\\.");
+			String pacoteTodo = new String();
+			String [] pacote = new String[2];
+			try {
+				pacoteTodo = element.getPackage().toString();
+				pacote = pacoteTodo.split("\\.", 2);
+			} catch (NullPointerException e) {
+				pacote[0] = "";
+			}
+
 			System.out.println("Fan out Elements: ");
 			for(CtTypeReference a : element.getReferencedTypes()) {
 				if(!a.isShadow() && !a.isPrimitive() && !a.toString().equals(element.getQualifiedName()) 
-						&& a.toString().contains("org.apache") && !a.toString().contains("exception")
+						&& a.toString().contains(pacote[0]) && !a.toString().contains("exception")
 						&& !a.toString().contains("Exception") && !a.toString().contains("java")) {
 					
 					fan_out += 1;

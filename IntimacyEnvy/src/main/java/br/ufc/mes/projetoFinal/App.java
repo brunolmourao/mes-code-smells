@@ -42,14 +42,16 @@ public class App
 	
     public static void main( String[] args )
     {
-    	//String path = "C:\\Users\\Usuário\\git\\bank-sys\\src\\main";
-    	String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
+    	String path = "C:\\Users\\Usuário\\git\\bank-sys\\src\\main";
+    	//String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
+    	//String path = "C:\\Users\\Usuário\\Desktop\\xstream-master\\xstream-master\\xstream\\src\\java";
         SpoonAPI api = new Launcher();
         api.addInputResource(path);
         api.buildModel();
         //api.addProcessor("br.ufc.mes.projetoFinal.FanOutClassProcessor");
         //api.addProcessor("br.ufc.mes.projetoFinal.FanInClassProcessor");
         api.addProcessor("br.ufc.mes.projetoFinal.InapIntProcessor");
+        //api.addProcessor("br.ufc.mes.projetoFinal.FanOutMethodProcessor");
         
         Collection<CtType<?>> types = api.getModel().getAllTypes();
 		TypeFilter<CtInvocation<?>> invocationFilter = new TypeFilter<CtInvocation<?>>(CtInvocation.class);
@@ -66,9 +68,13 @@ public class App
 					&& !type.getQualifiedName().contains("Exception")) {
 				String caller = type.getQualifiedName();
 				for (CtInvocation<?> invocation : type.getElements(invocationFilter)) {
-					String called = invocation.getExecutable().getDeclaringType().getQualifiedName();
-					if (typeSet.contains(called)) {
-						App.addCall(caller, called);
+					try {
+						String called = invocation.getExecutable().getDeclaringType().getQualifiedName();
+						if (typeSet.contains(called)) {
+							App.addCall(caller, called);
+						}
+					} catch(NullPointerException e) {
+						continue;
 					}
 				}
 				
