@@ -4,6 +4,7 @@ import spoon.processing.AbstractProcessor;
 import spoon.reflect.declaration.CtClass;
 import spoon.reflect.declaration.CtElement;
 import spoon.reflect.declaration.CtMethod;
+import spoon.reflect.reference.CtTypeReference;
 
 public class FanOutMethodProcessor extends AbstractProcessor<CtMethod<?>> {
 	
@@ -13,10 +14,20 @@ public class FanOutMethodProcessor extends AbstractProcessor<CtMethod<?>> {
 		//for() {
 		//	
 		//}
-		int num_tipos = element.getReferencedTypes().size();
+		int fan_out = 0;
 		System.out.println("Elemento: "+ element.getSimpleName());
-		System.out.println("Depende de: "+ element.getReferencedTypes());
-		System.out.println("Fan out " + num_tipos);
+		System.out.println("Fan out Elements: ");
+		for(CtTypeReference a : element.getReferencedTypes()) {
+			if(!a.isShadow() && !a.isPrimitive() && !a.toString().equals(element.getSimpleName()) 
+					&& a.toString().contains("") && !a.toString().contains("exception")
+					&& !a.toString().contains("Exception") && !a.toString().contains("java")) {
+				fan_out += 1;
+				System.out.println(a.toString());
+				
+			}
+		}
+		System.out.println("Elemento: "+ element.getSimpleName());
+		System.out.println("Fan out " + fan_out);
 		System.out.println("///////////////////////////////");
 	}
 
