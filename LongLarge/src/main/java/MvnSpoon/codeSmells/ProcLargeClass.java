@@ -14,9 +14,6 @@ public class ProcLargeClass extends AbstractProcessor<CtClass<?>> {
     	classEnd = cls.getPosition().getEndLine();
     	classLines = classEnd - classBegin + 1;
     	
-    	System.out.println("> CLASS NAME: " + cls.getSimpleName());
-    	System.out.println("     - Class Lines: " + classLines);
-    	System.out.println("     - Number of Fields: " + cls.getFields().size());
-    	System.out.println("     - Number of Methods: " + cls.getMethods().size());
+    	ToCSV.createRow(cls.getSimpleName(), classLines, cls.getFields().size(), cls.getMethods().size());	
     }
 }
