@@ -1,45 +1,62 @@
 package MvnSpoon.codeSmells;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ToCSV {
 	
-	private String projectName;
+	private static String projectName;
 	private String header;
 	private static List<String> base = new ArrayList<String>();
 	
-	public ToCSV(String projectName, int smellType) {
-		this.projectName = projectName;
+	public ToCSV(String proName, int smellType) {
+		setProName(proName);
 		if (smellType == 0) {
-			this.header = "class_name,method_name,code_lines";
+			header = "class_name,method_name,code_lines \n";
 			base.add(header);
 		}
-		else {
-			this.header = "class_name,code_lines,fields_num,methods_num";
+		else if (smellType == 1) {
+			header = "class_name,code_lines,fields_num,methods_num \n";
 			base.add(header);
 		}
 	}
 	
-	public List<String> getBase() {
+	public static List<String> getBase() {
 		return base;
 	}
 	
-	// LONG CLASS
+	public void setProName(String proName) {
+		projectName = proName;
+	}
+	
+	// LARGE CLASS
 	public static void createRow(String className, int classLines, int fieldNum, int methodNum) {
 		String row = "";
-		row = className + "," + classLines + "," + fieldNum + "," + methodNum;
+		row = className + "," + classLines + "," + fieldNum + "," + methodNum + "\n";
         base.add(row);
 	}
 	
 	// LONG METHOD
 	public static void createRow(String className, String methodName, int methodLines) {
 		String row = "";
-		row = className + "," + methodName + "," + Integer.toString(methodLines);	
+		row = className + "," + methodName + "," + Integer.toString(methodLines) + "\n";	
 		base.add(row);
 	}
 	
-	public void createCSV() {
+	public static void createCSV() {
+		String fileName = projectName + ".csv";
 		
+		try {
+			FileWriter wry = new FileWriter(fileName, true);
+			for (String row: base) {
+				wry.write(row.toString());
+			}
+			wry.close();
+			base.clear();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

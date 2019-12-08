@@ -1,5 +1,8 @@
 package MvnSpoon.codeSmells;
 
+import java.util.Scanner;
+
+import spoon.Launcher;
 import spoon.MavenLauncher;
 
 public class SpoonMain {
@@ -9,69 +12,47 @@ public class SpoonMain {
 		commons.buildModel();
 		
 		String xstreamPath = "C:\\Users\\Eve\\Documents\\Eve\\Computaçao\\MANEVO\\xstream";
-		MavenLauncher xstream = new MavenLauncher(xstreamPath, MavenLauncher.SOURCE_TYPE.APP_SOURCE);
+		Launcher xstream = new Launcher();
+		xstream.addInputResource(xstreamPath);
 		xstream.buildModel();
 		
-		//#######################################//
+		System.out.println("### SMELLY CODE");
+		System.out.println("-- 0 To Long Method");
+		System.out.println("-- 1 To Large Class");
 		
-		System.out.println("### LONG METHOD SMELL:");
+		Scanner input = new Scanner(System.in);
+		int smell = input.nextInt();
+		input.close();
 		
-		ProcLongMethod plm = new ProcLongMethod();
+		if (smell == 0) {
+			System.out.println("### LONG METHOD SMELL:");
+			System.out.println(" ");
+			
+			System.out.println(">> COMMONS-COLLECTIONS: ");
+			AuxLongMethod.processLM(commons, "commonLM");
+			
+			System.out.println(" ");
+			
+			System.out.println(">> XSTREAM: ");
+			AuxLongMethod.processLM(xstream, "xstreamLM");
+		}
 		
-		System.out.println(" ");
+		else if (smell == 1) {
+			System.out.println("### LARGE CLASS SMELL:");
+			
+			System.out.println(" ");
+			
+			System.out.println(">> COMMONS-COLLECTIONS: ");
+			AuxLargeClass.processLC(commons, "commonLC");
+			
+			System.out.println(" ");
+			
+			System.out.println(">> XSTREAM: ");
+			AuxLargeClass.processLC(xstream, "xstreamLC");
+		}
 		
-		System.out.println(">> COMMONS-COLLECTIONS: ");
-		ToCSV commonCSVLM = new ToCSV("commonLM", 0);
-		commons.addProcessor(plm);
-		System.out.println("-- Processing the project...");
-		commons.process();
-		System.out.println("-- Generating CSV file...");
-		commonCSVLM.createCSV();
-		System.out.println("-- CSV CREATED!!!");
-		
-		System.out.println(" ");
-		
-		//#######################################//		
-		
-		System.out.println(">> XSTREAM: ");
-		ToCSV xstreamCSVLM = new ToCSV("xstreamLM", 0);
-		xstream.addProcessor(plm);
-		System.out.println("-- Processing the project...");
-		xstream.process();
-		System.out.println("-- Generating CSV file...");
-		xstreamCSVLM.createCSV();
-		System.out.println("-- CSV CREATED!!!");
-		
-		System.out.println(" ");
-		
-		//#######################################//
-		
-		System.out.println("### LARGE CLASS SMELL:");
-		
-		ProcLargeClass plc = new ProcLargeClass();
-		
-		System.out.println(" ");
-		
-		System.out.println(">> COMMONS-COLLECTIONS: ");
-		ToCSV commonCSVLC = new ToCSV("commonLC", 1);
-		commons.addProcessor(plc);
-		System.out.println("-- Processing the project...");
-		commons.process();
-		System.out.println("-- Generating CSV file...");
-		commonCSVLC.createCSV();
-		System.out.println("-- CSV CREATED!!!");
-		
-		System.out.println(" ");
-		
-		//#######################################//
-		
-		System.out.println(">> XSTREAM: ");
-		ToCSV xstreamCSVLC = new ToCSV("xstreamLC", 1);
-		xstream.addProcessor(plc);
-		System.out.println("-- Processing the project...");
-		xstream.process();
-		System.out.println("-- Generating CSV file...");
-		xstreamCSVLC.createCSV();
-		System.out.println("-- CSV CREATED!!!");
+		else {
+			System.out.println("Invalid Input...");
+		}
 	}
 }
