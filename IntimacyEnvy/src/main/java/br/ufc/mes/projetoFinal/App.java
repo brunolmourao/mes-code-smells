@@ -69,8 +69,8 @@ public class App
 	
     public static void main( String[] args )
     {
-    	//String path = "C:\\Users\\Usuário\\git\\bank-sys\\src\\main";
-    	String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
+    	String path = "C:\\Users\\Usuário\\git\\bank-sys\\src\\main";
+    	//String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
     	//String path = "C:\\Users\\Usuário\\Desktop\\xstream-master\\xstream-master\\";
     	SpoonAPI api = new Launcher();
         //MavenLauncher api = new MavenLauncher(path, MavenLauncher.SOURCE_TYPE.APP_SOURCE);
@@ -80,6 +80,7 @@ public class App
         //api.addProcessor("br.ufc.mes.projetoFinal.FanInClassProcessor");
         //api.addProcessor("br.ufc.mes.projetoFinal.InapIntProcessor");
         //api.addProcessor("br.ufc.mes.projetoFinal.FanOutMethodProcessor");
+        api.addProcessor("br.ufc.mes.projetoFinal.FeatEnvyProcessor");
         
         Collection<CtType<?>> types = api.getModel().getAllTypes();
 		TypeFilter<CtInvocation<?>> invocationFilter = new TypeFilter<CtInvocation<?>>(CtInvocation.class);
@@ -100,8 +101,8 @@ public class App
 				for (CtInvocation<?> invocation : type.getElements(invocationFilter)) {
 					String invocationDeclarer = invocation.getExecutable().getDeclaringType().getQualifiedName();
 					if (typeSet.contains(invocationDeclarer)) {
-						addInvocation(invocation.getExecutable().toString(), typeName);
-						//System.out.println("Invocation: " + invocation.getExecutable().toString());
+						addInvocation(invocation.getExecutable().getSignature(), typeName);
+						//System.out.println("Invocation: " + invocation.getExecutable().getSignature());
 					}
 				}
 				
@@ -132,16 +133,6 @@ public class App
 					if (typeSet.contains(fieldDeclarer)) {
 						addField(field.getQualifiedName(), typeName);
 						//System.out.println("Field: " + field.getQualifiedName());
-						/*
-						FieldAccessFilter fieldFilter = new FieldAccessFilter();
-						for (CtFieldAccess<?> fieldAccess : type.getElements(fieldFilter)) {
-							System.out.println("Field Access: " + fieldAccess);
-							if(!fieldAccess.toString().contains("this") && !fieldAccess.toString().contains(field.getSimpleName())) {
-								System.out.println("Field Access entrou");
-								addAccessField(fieldAccess.toString(), typeName);
-							}
-						}
-						*/
 						
 					}
 				}
