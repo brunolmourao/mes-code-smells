@@ -70,16 +70,12 @@ public class App
     public static void main( String[] args )
     {
     	//String path = "C:\\Users\\Bruno\\Documents\\bank-sys\\src\\main";
-    	String path = "C:\\Users\\Bruno\\Documents\\commons-collections\\src\\main";
+    	String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
     	//String path = "C:\\Users\\Usuário\\Desktop\\xstream-master\\xstream-master\\";
     	SpoonAPI api = new Launcher();
         //MavenLauncher api = new MavenLauncher(path, MavenLauncher.SOURCE_TYPE.APP_SOURCE);
         api.addInputResource(path);
         api.buildModel();
-        //api.addProcessor("br.ufc.mes.projetoFinal.FanOutClassProcessor");
-        //api.addProcessor("br.ufc.mes.projetoFinal.FanInClassProcessor");
-        //api.addProcessor("br.ufc.mes.projetoFinal.InapIntProcessor");
-        //api.addProcessor("br.ufc.mes.projetoFinal.FanOutMethodProcessor");
         api.addProcessor("br.ufc.mes.projetoFinal.FeatEnvyProcessor");
         
         Collection<CtType<?>> types = api.getModel().getAllTypes();
@@ -142,22 +138,27 @@ public class App
 				try {
 					classInvocations.get(typeName).removeAll((Collection<String>) classMethods.get(typeName));
 				} catch(NullPointerException e) {
-					System.out.println("Invocations em " + type.getQualifiedName() + ":");
+
 				}
 				
 				try {
 					classAccessFields.get(typeName).removeAll((Collection<String>) classFields.get(typeName));
 				} catch(NullPointerException e) {
-					System.out.println("Field Access em " + type.getQualifiedName() + ":");
+					
 				}
 				
-				
-				if(classInvocations.get(type.getQualifiedName()) != null) {
+				int totalExterno = 0;
+				if(classInvocations.get(type.getQualifiedName()) != null && !classInvocations.get(type.getQualifiedName()).isEmpty()) {
 					System.out.println("Invocations em " + type.getQualifiedName() + ": " + classInvocations.get(type.getQualifiedName()));
+					totalExterno += classInvocations.get(type.getQualifiedName()).size();
 				}
-				if(classAccessFields.get(type.getQualifiedName()) != null) {
+				if(classAccessFields.get(type.getQualifiedName()) != null && !classAccessFields.get(type.getQualifiedName()).isEmpty()) {
 					System.out.println("Field Access em " + type.getQualifiedName() + ": " + classAccessFields.get(type.getQualifiedName()));
-					//System.out.println(classFields.get(type.getQualifiedName()));
+					totalExterno += classAccessFields.get(type.getQualifiedName()).size();
+				}
+				if(totalExterno > 0) {
+					System.out.println("Total em " + type.getQualifiedName() + ": " + totalExterno);
+					System.out.println("///////////////////////////////////////////");
 				}
 			}	
 			
