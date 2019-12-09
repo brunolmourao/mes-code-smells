@@ -15,13 +15,11 @@ public class FeatEnvyProcessor extends AbstractProcessor<CtClass<?>> {
 	
 	public void process(CtClass<?> element) {
 		if(App.classMethods.get(element.getQualifiedName()) != null) {
-			System.out.println("Class: " + element.getQualifiedName());
 			for (CtMethod<?> method : element.getAllMethods()) {
 				int dataTotal = 0, dataInternal = 0, dataExternal = 0;
 				if(App.classMethods.get(element.getQualifiedName()).contains(method.getSignature())) {
-					System.out.println("Method: " + method.getSignature());
 					for (CtInvocation<?> invocation : method.getElements(invocationFilter)) {
-						System.out.println("Invocation: " + invocation.getExecutable().getSignature());
+						//System.out.println("Invocation: " + invocation.getExecutable().getSignature());
 						dataTotal += 1;
 						if(App.classInvocations.get(element.getQualifiedName()) != null) {
 							if(App.classInvocations.get(element.getQualifiedName()).contains(invocation.getExecutable().getSignature())) {
@@ -32,7 +30,7 @@ public class FeatEnvyProcessor extends AbstractProcessor<CtClass<?>> {
 						}
 					}
 					for (CtFieldAccess<?> fieldAccess : method.getElements(fieldAccessFilter)) {
-						System.out.println("Field Access: " + fieldAccess.getVariable().getQualifiedName());
+						//System.out.println("Field Access: " + fieldAccess.getVariable().getQualifiedName());
 						dataTotal += 1;
 						if(App.classAccessFields.get(element.getQualifiedName()) != null) {
 							if(App.classAccessFields.get(element.getQualifiedName()).contains(fieldAccess.getVariable().getQualifiedName())) {
@@ -42,9 +40,13 @@ public class FeatEnvyProcessor extends AbstractProcessor<CtClass<?>> {
 							}
 						}
 					}
-					System.out.println("Total: " + dataTotal);
-					System.out.println("Interno: " + dataInternal);
-					System.out.println("Externo: " + dataExternal);
+					if(dataInternal < dataExternal && dataExternal > 0 && dataTotal > 1) {
+						System.out.println("Class: " + element.getQualifiedName());
+						System.out.println("Method: " + method.getSignature());
+						System.out.println("Total: " + dataTotal);
+						System.out.println("Interno: " + dataInternal);
+						System.out.println("Externo: " + dataExternal);
+					}
 				}
 			}
 		}

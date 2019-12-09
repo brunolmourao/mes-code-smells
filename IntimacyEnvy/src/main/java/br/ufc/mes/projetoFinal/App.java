@@ -69,8 +69,8 @@ public class App
 	
     public static void main( String[] args )
     {
-    	String path = "C:\\Users\\Usuário\\git\\bank-sys\\src\\main";
-    	//String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
+    	//String path = "C:\\Users\\Bruno\\Documents\\bank-sys\\src\\main";
+    	String path = "C:\\Users\\Bruno\\Documents\\commons-collections\\src\\main";
     	//String path = "C:\\Users\\Usuário\\Desktop\\xstream-master\\xstream-master\\";
     	SpoonAPI api = new Launcher();
         //MavenLauncher api = new MavenLauncher(path, MavenLauncher.SOURCE_TYPE.APP_SOURCE);
