@@ -17,7 +17,7 @@ public class FanOutClassProcessor extends AbstractProcessor<CtClass<?>> {
 			String[] pacote = pacoteTodo.split("\\.");
 			System.out.println("Pacote: "+ pacote[0]);
 			for(CtTypeReference a : element.getReferencedTypes()) {
-				if(!a.isShadow() && !a.isPrimitive() && !a.toString().equals(element.getQualifiedName()) 
+				if(!a.isShadow() && !a.isPrimitive() 
 						&& a.toString().contains(pacote[0]) && !a.toString().contains("exception")
 						&& !a.toString().contains("Exception") && !a.toString().contains("java")) {
 					fan_out += 1;

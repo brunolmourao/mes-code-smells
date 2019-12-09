@@ -21,6 +21,7 @@ public class InapIntProcessor extends AbstractProcessor<CtClass<?>> {
 	int inap_int = 0;
 	
 	public void process(CtClass<?> element) {
+		/*
 		int fan_in = 0;
 		int fan_out = 0;
 		if(!element.getQualifiedName().contains("exception") && !element.getQualifiedName().contains("Exception")
@@ -59,7 +60,10 @@ public class InapIntProcessor extends AbstractProcessor<CtClass<?>> {
 				inap_int += 1;
 			}
 			System.out.println("///////////////////////////////");
+		
 		}
+		*/
+		
 
 	}
 }
