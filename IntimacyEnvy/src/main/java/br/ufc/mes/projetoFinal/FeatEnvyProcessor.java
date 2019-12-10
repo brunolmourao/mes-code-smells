@@ -46,6 +46,7 @@ public class FeatEnvyProcessor extends AbstractProcessor<CtClass<?>> {
 						System.out.println("Total: " + dataTotal);
 						System.out.println("Interno: " + dataInternal);
 						System.out.println("Externo: " + dataExternal);
+						ToCSV.createRow(element.getSimpleName(), method.getSimpleName(), dataTotal, dataInternal, dataExternal);	
 					}
 				}
 			}

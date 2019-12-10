@@ -70,8 +70,8 @@ public class App
     public static void main( String[] args )
     {
     	//String path = "C:\\Users\\Bruno\\Documents\\bank-sys\\src\\main";
-    	String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
-    	//String path = "C:\\Users\\Usuário\\Desktop\\xstream-master\\xstream-master\\";
+    	//String path = "C:\\Users\\Usuário\\Desktop\\commons-collections-master\\commons-collections-master\\src\\main";
+    	String path = "C:\\Users\\Usuário\\Desktop\\xstream-master\\xstream-master\\";
     	SpoonAPI api = new Launcher();
         //MavenLauncher api = new MavenLauncher(path, MavenLauncher.SOURCE_TYPE.APP_SOURCE);
         api.addInputResource(path);
@@ -81,6 +81,7 @@ public class App
         Collection<CtType<?>> types = api.getModel().getAllTypes();
 		TypeFilter<CtInvocation<?>> invocationFilter = new TypeFilter<CtInvocation<?>>(CtInvocation.class);
 		TypeFilter<CtFieldAccess<?>> fieldAccessFilter = new TypeFilter<CtFieldAccess<?>>(CtFieldAccess.class);
+		new ToCSV("xstreamFE", 1, false);
 		
 		Set<String> typeSet = new HashSet<String>();
 		for (CtType<?> type : types) {
@@ -95,7 +96,12 @@ public class App
 				
 				String typeName = type.getQualifiedName();
 				for (CtInvocation<?> invocation : type.getElements(invocationFilter)) {
-					String invocationDeclarer = invocation.getExecutable().getDeclaringType().getQualifiedName();
+					String invocationDeclarer = new String();
+					try {
+						invocationDeclarer = invocation.getExecutable().getDeclaringType().getQualifiedName();
+					} catch (NullPointerException e) {
+						continue;
+					}
 					if (typeSet.contains(invocationDeclarer)) {
 						addInvocation(invocation.getExecutable().getSignature(), typeName);
 						//System.out.println("Invocation: " + invocation.getExecutable().getSignature());
@@ -111,7 +117,12 @@ public class App
 				}
 				
 				for (CtFieldAccess<?> fieldAccess : type.getElements(fieldAccessFilter)) {
-					String fieldAccessDeclarer = fieldAccess.getVariable().getDeclaringType().getQualifiedName();
+					String fieldAccessDeclarer = new String();
+					try {
+						fieldAccessDeclarer = fieldAccess.getVariable().getDeclaringType().getQualifiedName();
+					} catch (NullPointerException e) {
+						continue;
+					}
 					//System.out.println("Tipo Access: " + typeName);
 					//System.out.println("Tipo Field Access: " + fieldAccessDeclarer);
 					//System.out.println("Field Access: " + fieldAccess.toString());
@@ -148,23 +159,31 @@ public class App
 				}
 				
 				int totalExterno = 0;
+				int totalInterno = 0;
 				if(classInvocations.get(type.getQualifiedName()) != null && !classInvocations.get(type.getQualifiedName()).isEmpty()) {
-					System.out.println("Invocations em " + type.getQualifiedName() + ": " + classInvocations.get(type.getQualifiedName()));
+					//System.out.println("Invocations em " + type.getQualifiedName() + ": " + classInvocations.get(type.getQualifiedName()));
 					totalExterno += classInvocations.get(type.getQualifiedName()).size();
 				}
 				if(classAccessFields.get(type.getQualifiedName()) != null && !classAccessFields.get(type.getQualifiedName()).isEmpty()) {
-					System.out.println("Field Access em " + type.getQualifiedName() + ": " + classAccessFields.get(type.getQualifiedName()));
+					//System.out.println("Field Access em " + type.getQualifiedName() + ": " + classAccessFields.get(type.getQualifiedName()));
 					totalExterno += classAccessFields.get(type.getQualifiedName()).size();
 				}
 				if(totalExterno > 0) {
+					if( classMethods.get(type.getQualifiedName()) != null) {
+						totalInterno += classMethods.get(type.getQualifiedName()).size();
+					}
+					if( classFields.get(type.getQualifiedName()) != null) {
+						totalInterno += classFields.get(type.getQualifiedName()).size();
+					}
 					System.out.println("Total em " + type.getQualifiedName() + ": " + totalExterno);
 					System.out.println("///////////////////////////////////////////");
+					//ToCSV.createRow(type.getSimpleName(), totalInterno, totalExterno);	
 				}
 			}	
 			
 		}
 		
         api.process();
-        
+        ToCSV.createCSV();
     }
 }
