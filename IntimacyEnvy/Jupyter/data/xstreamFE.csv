@@ -1,4 +1,4 @@
-class_name,method_name,data_total,data_internal,data_external 
+class_name,method_name,data_total,data_internal,data_external
 AbstractHibernateAcceptanceTest,createXStream,10,0,10
 HibernateReferenceTest,setUp,16,6,10
 ImplicitMapTest,createXStream,5,1,2

@@ -1,4 +1,4 @@
-class_name,num_internal,num_external 
+class_name,num_internal,num_external
 AbstractHibernateAcceptanceTest,16,4
 HibernateCollectionsTypeCompatibilityTest,24,7
 HibernateReferenceTest,23,11

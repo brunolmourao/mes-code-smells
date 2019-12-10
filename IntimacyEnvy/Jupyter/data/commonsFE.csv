@@ -1,4 +1,4 @@
-class_name,method_name,data_total,data_internal,data_external 
+class_name,method_name,data_total,data_internal,data_external
 AllPredicate,allPredicate,6,2,4
 AllPredicate,allPredicate,5,2,3
 AnyPredicate,anyPredicate,5,2,3
