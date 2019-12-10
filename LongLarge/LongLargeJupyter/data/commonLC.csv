@@ -1,4 +1,4 @@
-class_name,code_lines,fields_num,methods_num 
+class_name,code_lines,fields_num,methods_num
 AbstractBagDecorator,67,1,7
 BagIterator,61,6,3
 MutableInteger,25,1,2

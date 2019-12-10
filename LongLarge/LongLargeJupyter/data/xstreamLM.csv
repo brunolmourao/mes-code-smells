@@ -1,4 +1,4 @@
-class_name,method_name,code_lines 
+class_name,method_name,code_lines
 BaseDomainObject,getName,3
 Department,getPeople,3
 Division,getDepartments,3

@@ -1,4 +1,4 @@
-class_name,method_name,code_lines 
+class_name,method_name,code_lines
 AbstractBagDecorator,add,3
 AbstractBagDecorator,decorated,3
 AbstractBagDecorator,equals,3

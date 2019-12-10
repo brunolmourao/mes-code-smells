@@ -1,4 +1,4 @@
-class_name,code_lines,fields_num,methods_num 
+class_name,code_lines,fields_num,methods_num
 BaseDomainObject,14,2,1
 Department,20,2,1
 Division,16,1,1
