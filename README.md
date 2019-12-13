@@ -5,3 +5,8 @@ Temos como objetivo avaliar os projetos :
   - X-Stream, versão 1.4.11.1 (https://github.com/x-stream/xstream) 
 
 Neles iremos identificar alguns Code Smells (https://sourcemaking.com/refactoring) como :Long Method, Large Class, Divergent Change, Shotgun Surgery, Inappropriate Intimacy e Feature Envy .
+
+Autores: 
+-Bruno Mourão/362953
+-Diego Feijó/374922
+-Eveline Silva Andrade/377733
